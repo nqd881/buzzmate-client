@@ -1,0 +1,12 @@
+.ChatRight {
+  position: absolute;
+  left: calc(100% - vars.$ChatRightWidth);
+  width: vars.$ChatRightWidth;
+  height: 100%;
+  transition: left vars.$ChatRightSlippingTime;
+  background-color: #fff;
+}
+
+.collapsed {
+  left: 100%;
+}

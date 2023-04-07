@@ -1,0 +1,38 @@
+.Button {
+  position: relative;
+  padding: 1rem;
+  overflow: hidden;
+
+  .ripple {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    background: gray;
+    transform: translate(-50%, -50%);
+    animation: ripple 0.8s linear;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0.1;
+  }
+
+  100% {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+}
+
+.IconButton {
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  aspect-ratio: 1;
+}

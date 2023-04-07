@@ -1,0 +1,66 @@
+$send_btn_size: 3.4rem;
+$send_icon_size: 2rem;
+$input_icon_size: 1.5rem;
+
+.MessageInput {
+  padding: 0.2rem 0 0.7rem 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .input-container {
+    background-color: #fff;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 0.7rem;
+    position: relative;
+
+    .enter-field {
+      flex: 1;
+      margin: 0 0.5rem;
+      background-color: transparent;
+      outline: none;
+    }
+
+    .input_icon {
+      height: $input_icon_size;
+      width: $input_icon_size;
+      color: #434343;
+      margin: auto;
+    }
+
+    .emoji_picker_box {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      padding: 0.5rem 0;
+      z-index: 100;
+    }
+  }
+
+  .send_btn {
+    min-width: 0;
+    height: $send_btn_size;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.5rem;
+    background-color: #3390ec;
+
+    .send_icon {
+      height: $send_icon_size;
+      width: $send_icon_size;
+      color: rgb(255, 255, 255);
+      transform: translateX(0.2rem);
+    }
+  }
+}

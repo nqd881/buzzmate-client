@@ -1,0 +1,14 @@
+.root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.app {
+  flex: 1;
+  height: 100%;
+}

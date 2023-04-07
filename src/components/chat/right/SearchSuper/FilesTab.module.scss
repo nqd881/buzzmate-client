@@ -1,0 +1,40 @@
+$icon_size: 3rem;
+
+.FilesTab {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.FileItem {
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  .icon {
+    height: $icon_size;
+    width: $icon_size;
+    border-radius: 0.5rem;
+    background-color: #0583c7;
+    margin: 0.5rem 0.8rem 0.5rem 0.5rem;
+  }
+
+  .details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+
+    .name {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .more {
+      font-size: 0.75rem;
+    }
+  }
+}

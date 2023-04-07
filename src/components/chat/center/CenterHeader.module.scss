@@ -1,0 +1,62 @@
+$avatar_size: 2.5rem;
+$util_icon_btn_size: 2rem;
+$util_icon_size: 1.3rem;
+$util_icon_color: #5a5a5a;
+
+.CenterHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 0.6rem;
+  border-bottom: 1px solid vars.$divider_color;
+  background-color: #fff;
+
+  .chat-info {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+
+    .chat-avatar {
+      margin: 0 0.8rem;
+      height: $avatar_size;
+      width: $avatar_size;
+    }
+
+    .chat-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .chat-util {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .util-icon-btn {
+      min-width: 0;
+      height: $util_icon_btn_size;
+      width: $util_icon_btn_size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      margin: 0 0.2rem;
+    }
+
+    .util-icon {
+      height: $util_icon_size;
+      width: $util_icon_size;
+      color: $util_icon_color;
+    }
+  }
+}

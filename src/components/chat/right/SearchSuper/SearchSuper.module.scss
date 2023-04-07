@@ -1,0 +1,78 @@
+$tabCurrentColor: #3390ec;
+$tabDefaultColor: #545454;
+
+.SearchSuper {
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.tab-menu {
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid vars.$divider_color;
+
+  .tabs {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.tab-item {
+  flex: 1 1 auto; // important
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 0;
+
+  .tab-name {
+    height: 100%;
+    width: 100%;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 900;
+    font-size: 0.95rem;
+    text-align: center;
+    color: $tabDefaultColor;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($tabDefaultColor, 0.1);
+    }
+  }
+}
+
+.tab-current-item {
+  position: relative;
+
+  .tab-name {
+    color: $tabCurrentColor;
+    &:hover {
+      background-color: rgba($tabCurrentColor, 0.1);
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    height: 6px;
+    width: 50%;
+    border-radius: 3px;
+    background-color: $tabCurrentColor;
+  }
+}
+
+.tab-content {
+  flex: 1;
+  height: 0;
+  overflow: hidden;
+}

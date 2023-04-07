@@ -1,0 +1,45 @@
+.LinksTab {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.LinkItem {
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  padding: 0.7rem;
+
+  &:hover {
+    background-color: #f3f3f3;
+  }
+
+  .icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: #206fc9;
+    margin-right: 0.8rem;
+    border-radius: 0.5rem;
+  }
+
+  .details {
+    flex: 1;
+    word-break: break-word;
+
+    .title {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .description {
+      font-size: 0.8rem;
+    }
+
+    .url {
+      font-size: 0.8rem;
+      color: #206fc9;
+    }
+  }
+}

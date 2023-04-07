@@ -1,0 +1,35 @@
+.LeftHeader {
+  width: 100%;
+  padding: 1.2rem;
+  margin-top: 1rem;
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .title {
+    font-weight: 900;
+    font-size: 1.8rem;
+  }
+
+  .create_chat_btn {
+    border-radius: 50%;
+
+    .create_chat_icon {
+      height: 1.6rem;
+      width: 1.6rem;
+    }
+  }
+
+  .modal_body {
+    width: 50%;
+
+    .form {
+      background-color: yellow;
+
+      .input_field {
+        color: red;
+      }
+    }
+  }
+}

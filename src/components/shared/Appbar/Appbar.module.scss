@@ -1,0 +1,105 @@
+.Appbar {
+  width: vars.$AppbarWidth;
+  height: 100%;
+  padding: 20px 0;
+  border-right: 1px solid vars.$divider_color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+}
+
+.AppbarIconBox {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-bottom: 3px;
+
+  .wrap-child {
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .marker {
+      content: "";
+      height: 100%;
+      width: 8px;
+      position: absolute;
+      top: 0;
+      right: -4px;
+      background-color: #862f1d;
+      border-radius: 4px;
+    }
+  }
+}
+
+.AppbarIcon {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  padding: 10px;
+  z-index: 1;
+  aspect-ratio: 1;
+
+  .wrapper {
+    height: 100%;
+    width: 100%;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(184, 82, 82, 0.4);
+    border: 2px solid #862f1d;
+    z-index: -1;
+    animation: rotateAnimation 10s infinite linear,
+      borderRadiusAnimation 6s infinite linear;
+  }
+}
+
+.active {
+  display: block;
+}
+
+.disable {
+  display: none;
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes borderRadiusAnimation {
+  0% {
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+  }
+
+  25% {
+    border-radius: 59% 41% 54% 46% / 45% 66% 34% 55%;
+  }
+
+  50% {
+    border-radius: 40% 60% 32% 68% / 56% 32% 68% 44%;
+  }
+
+  75% {
+    border-radius: 59% 41% 54% 46% / 45% 66% 34% 55%;
+  }
+
+  100% {
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+  }
+}

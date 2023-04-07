@@ -1,0 +1,39 @@
+$avatar_size: 6.4rem;
+
+.ProfileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 1rem;
+  padding-top: 2.5rem;
+
+  .edit-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    border-radius: 50%;
+
+    .edit-icon {
+      height: 1.6rem;
+      width: 1.6rem;
+      color: gray;
+    }
+  }
+
+  .profile-avatar {
+    margin: 0.5rem;
+    height: $avatar_size;
+    width: $avatar_size;
+  }
+
+  .profile-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .profile-last-seen {
+    font-size: 0.8rem;
+  }
+}

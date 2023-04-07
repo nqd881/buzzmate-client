@@ -1,0 +1,25 @@
+@use "@styles/background-gradient.scss" as bgr;
+
+.Background {
+  @include bgr.dania;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -10;
+  overflow: hidden;
+
+  .bg {
+    background-image: url("/pattern.svg");
+    height: 200%;
+    width: 200%;
+    background-repeat: repeat;
+    background-size: 500px;
+    z-index: -9;
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+    transform-origin: center center;
+    transform: translate(-25%, -25%) rotate(30deg);
+  }
+}

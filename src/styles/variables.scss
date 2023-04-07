@@ -1,0 +1,8 @@
+$divider_color: #e7e7e7;
+
+$AppbarWidth: 70px;
+$AppPageContentWidth: calc(100vw - $AppbarWidth);
+
+$ChatLeftWidth: min(0.25 * $AppPageContentWidth, 400px);
+$ChatRightWidth: min(0.25 * $AppPageContentWidth, 380px);
+$ChatRightSlippingTime: 0.2s;

@@ -1,0 +1,16 @@
+$transition-duration: 0.2s;
+
+.opacity-transition {
+  transition: opacity $transition-duration cubic-bezier(0.2, 0, 0.2, 1),
+    transform $transition-duration cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.close {
+  opacity: 0;
+  transform: scale(0);
+}

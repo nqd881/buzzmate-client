@@ -1,0 +1,19 @@
+$besideColWidth: calc(vars.$ChatLeftWidth + vars.$ChatRightWidth);
+
+.ChatCenter {
+  position: relative;
+  width: calc(100% - $besideColWidth);
+  height: 100%;
+  transition: width vars.$ChatRightSlippingTime;
+  border: 0px solid vars.$divider_color;
+  border-width: 0px 1px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.expanded {
+  width: calc(100% - vars.$ChatLeftWidth);
+}
