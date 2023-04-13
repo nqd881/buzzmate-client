@@ -1,102 +1,89 @@
 $ctx-menu-open-time: 0.3s;
 
 .Message {
-  position: relative;
   width: 100%;
-  padding: 0.1rem 1rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  transition: background-color 0.3s ease;
 
-  .checkbox {
-    visibility: hidden;
-    align-self: flex-end;
-    margin-bottom: 0.15rem;
-    min-height: 0;
-    z-index: 2;
-    pointer-events: none;
-
-    span {
-      height: 1.4rem;
-      width: 1.4rem;
-      border-radius: 50%;
-    }
-  }
-
-  .content {
+  .box {
     width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0.1rem 1rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
-    .avatar {
-      min-width: 0;
-      height: 2.2rem;
-      width: 2.2rem;
-      border: 2px solid #fff;
-      margin: 0 1rem;
+    .checkbox {
       align-self: flex-end;
-      transition: transform 0.25s;
+      margin-bottom: 0.15rem;
+      min-height: 0;
       z-index: 2;
-    }
+      pointer-events: none;
 
-    .bubble {
-      font-size: 0.9rem;
-      font-weight: bold;
-      max-width: min(400px, 60%);
-      padding: 0.6rem 0.8rem;
-      border-radius: 0.5rem;
-      z-index: 2;
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3 ease;
+
       span {
-        word-break: break-all;
+        height: 1.4rem;
+        width: 1.4rem;
+        border-radius: 50%;
       }
     }
-  }
 
-  .openable-context-menu {
-    position: absolute;
-    height: 100%;
-    width: 200%;
-    top: 0;
-    left: -50%;
-    z-index: 1;
-    background-color: transparent;
-    transition: background-color 0.1s ease-in-out;
+    .content {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+
+      .content_content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .avatar {
+        min-width: 0;
+        height: 2.2rem;
+        width: 2.2rem;
+        border: 2px solid #fff;
+        margin-right: 1rem;
+        align-self: flex-end;
+        transition: transform 0.3s ease;
+        z-index: 2;
+      }
+    }
   }
 }
 
 .my-message {
-  .content {
+  .box .content {
     flex-direction: row-reverse;
+
+    .content_content {
+      align-items: flex-end;
+    }
 
     .avatar {
       display: none;
-    }
-
-    .bubble {
-      background-image: linear-gradient(
-        to right top,
-        #dfffc5,
-        #d9fdbc,
-        #d4fcb2,
-        #cefaa9,
-        #c8f89f
-      );
     }
   }
 }
 
 .your-message {
-  .content {
+  .box .content {
     flex-direction: row;
 
     .avatar {
       display: block;
       visibility: hidden;
-    }
-
-    .bubble {
-      background-color: #ffffff;
     }
   }
 
@@ -108,19 +95,24 @@ $ctx-menu-open-time: 0.3s;
 }
 
 .is-selected {
-  .openable-context-menu {
-    background-color: rgba(#000, 0.2);
-  }
+  background-color: rgba(#000, 0.2);
 }
 
 .mode-select {
   cursor: default;
 
-  .checkbox {
-    visibility: visible;
-  }
+  .box {
+    .checkbox {
+      visibility: visible;
+      opacity: 1;
+    }
 
-  .content .avatar {
-    transform: scale(0.8);
+    .content {
+      margin-left: 2rem;
+
+      .avatar {
+        transform: scale(0.8);
+      }
+    }
   }
 }

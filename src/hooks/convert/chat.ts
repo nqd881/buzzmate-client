@@ -8,5 +8,6 @@ export const convertApiChat = (apiChat: ApiChat): Chat => {
     description: apiChat.description,
     messages: [],
     members: [],
+    medias: [],
   };
 };

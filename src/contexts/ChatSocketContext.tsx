@@ -1,7 +1,5 @@
 import { convertApiMessage } from "@hooks/convert/message";
-import { useChats } from "@hooks/use-chats";
-import { useMessages } from "@hooks/use-messages";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
+import { useChats } from "@hooks/data/use-chats";
 import { useSocket } from "@hooks/useSocket";
 import React, { PropsWithChildren, useEffect } from "react";
 import { Socket } from "socket.io-client";
@@ -38,8 +36,6 @@ export const ChatSocketProvider: React.FC<PropsWithChildren> = (props) => {
             const draftMessageIndex = chat.messages.findIndex(
               (message) => message.isDraft && message.id === messageReceived.id
             );
-
-            console.log(draftMessageIndex);
 
             const shouldUpdate = draftMessageIndex >= 0;
 

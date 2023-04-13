@@ -1,3 +1,11 @@
+export class ApiChatUser {
+  id: string;
+  identity: string;
+  emailAddress: string;
+  name: string;
+  type: string;
+}
+
 export class ApiChatMember {
   id: string;
   chatId: string;

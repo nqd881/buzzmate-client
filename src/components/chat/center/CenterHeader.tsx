@@ -9,7 +9,8 @@ import { IoSearch } from "react-icons/io5";
 import { TbDotsVertical } from "react-icons/tb";
 import { sassClasses } from "@utils/buildClassName";
 import styles from "./CenterHeader.module.scss";
-import { useCurrentChat } from "@hooks/useCurrentChat";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
+import { useChat } from "@hooks/data/use-chat";
 
 const cl = sassClasses(styles);
 
@@ -33,7 +34,9 @@ const UtilIcon: React.FC<UtilIconProps> = ({ icon: Icon, ...props }) => {
 export const CenterHeader = () => {
   const { handleOpenSide } = useChatCtx();
 
-  const { chat: currentChat } = useCurrentChat();
+  const currentChatId = useCurrentChatId();
+
+  const { chat: currentChat } = useChat(currentChatId);
 
   return (
     <div className={cl("CenterHeader")}>

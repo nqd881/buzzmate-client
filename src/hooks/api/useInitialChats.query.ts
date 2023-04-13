@@ -2,7 +2,7 @@ import { getAllChatsApi } from "@apis/chat/get-all-chats";
 import { ApiChat } from "@apis/models/chat";
 import { convertApiChat } from "@hooks/convert/chat";
 import { convertApiMessage } from "@hooks/convert/message";
-import { useChats } from "@hooks/use-chats";
+import { useChats } from "@hooks/data/use-chats";
 import { useQuery } from "@tanstack/react-query";
 
 export type UseInitialChatsOptions = {
@@ -10,7 +10,7 @@ export type UseInitialChatsOptions = {
 };
 
 export const useInitialChatsQuery = (options?: UseInitialChatsOptions) => {
-  const { chats, addChat, setChats } = useChats();
+  const { chats, addChat } = useChats();
 
   const chatsQuery = useQuery({
     queryKey: ["chats"],
@@ -19,9 +19,12 @@ export const useInitialChatsQuery = (options?: UseInitialChatsOptions) => {
       data.forEach((apiChat) => {
         const chat = convertApiChat(apiChat);
 
+        if (apiChat?.lastMessage)
+          chat.messages.push(convertApiMessage(apiChat.lastMessage));
+
         if (chats.some((localChat) => localChat.id === chat.id)) return;
 
-        addChat(convertApiChat(apiChat));
+        addChat(chat);
       });
     },
     initialData: options?.initialData,

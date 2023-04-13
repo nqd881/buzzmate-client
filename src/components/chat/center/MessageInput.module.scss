@@ -1,9 +1,9 @@
-$send_btn_size: 3.4rem;
-$send_icon_size: 2rem;
+$send_btn_size: 3.2rem;
+$send_icon_size: 1.8rem;
 $input_icon_size: 1.5rem;
 
 .MessageInput {
-  padding: 0.2rem 0 0.7rem 1.5rem;
+  padding: 0.2rem 0.5rem 0.7rem 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -11,14 +11,14 @@ $input_icon_size: 1.5rem;
 
   .input-container {
     background-color: #fff;
-    width: 80%;
+    width: 100%;
     max-width: 600px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-radius: 0.5rem;
-    padding: 0.7rem;
+    border-radius: 1rem;
+    padding: 0.5rem;
     position: relative;
 
     .enter-field {

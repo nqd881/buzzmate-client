@@ -1,12 +1,11 @@
 import { Avatar } from "@chakra-ui/react";
+import { useLastMessage } from "@hooks/data/use-last-message";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
+import { sassClasses } from "@utils";
+import { format } from "date-fns";
 import { useRouter } from "next/router";
 import React, { MouseEvent } from "react";
-import { RiCheckDoubleLine } from "react-icons/ri";
-import { sassClasses } from "@utils";
 import styles from "./ChatroomItem.module.scss";
-import { format } from "date-fns";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
-import { useLastMessage } from "@hooks/use-last-message";
 
 const cl = sassClasses(styles);
 
@@ -22,7 +21,7 @@ export const ChatroomItem: React.FC<ChatroomItemProps> = ({ data }) => {
   const currentChatId = useCurrentChatId();
   const isCurrent = currentChatId == data?.id;
 
-  const lastMessage = useLastMessage(data?.id);
+  const { message: lastMessage } = useLastMessage(data?.id);
 
   const handleClick = (e: MouseEvent) => {
     router.push(
@@ -51,12 +50,12 @@ export const ChatroomItem: React.FC<ChatroomItemProps> = ({ data }) => {
       <div className={cl("avatar")}>
         <Avatar size="md" src={""} />
       </div>
-      <div className={cl("Info")}>
-        <div className={cl("InfoLeft")}>
+      <div className={cl("info")}>
+        <div className={cl("info_left")}>
           <span className={cl("name")}>{title}</span>
           <span className={cl("last_message")}>{content?.text}</span>
         </div>
-        <div className={cl("InfoRight")}>
+        <div className={cl("info_right")}>
           <span className={cl("time")}>
             {date ? formatMessageDate(date) : null}
           </span>

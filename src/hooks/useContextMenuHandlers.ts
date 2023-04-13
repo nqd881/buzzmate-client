@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from "react";
-import {VPP} from "@utils";
+import React, { useCallback, useState } from "react";
+import { VPP } from "@utils";
 
 export type AbleUndefined<T> = T | undefined;
 
@@ -16,6 +16,8 @@ export const useContextMenuHandlers = () => {
 
       setIsContextMenuOpen(true);
       setContextMenuPosition(VPP.fromMouse(ev));
+
+      console.log(VPP.fromMouse(ev));
     },
     [contextMenuPosition]
   );

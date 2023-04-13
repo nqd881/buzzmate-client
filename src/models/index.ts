@@ -12,6 +12,18 @@ export type Video = {
   uri: string;
 };
 
+export type Document = {
+  id: string;
+};
+
+export type Media = {
+  id: string;
+  isPhoto: boolean;
+  isVideo: boolean;
+  isDocument: boolean;
+  content: Photo | Video | Document;
+};
+
 export type Message = {
   id: string;
   chatId: string;
@@ -51,4 +63,5 @@ export type Chat = {
   description: string;
   messages: Message[];
   members: Member[];
+  medias: Media[];
 };

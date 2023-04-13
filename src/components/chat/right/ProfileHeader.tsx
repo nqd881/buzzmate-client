@@ -22,12 +22,12 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikConfig, useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
-import { useChat } from "@hooks/use-chat";
 import {
   editChatInfoApi,
   EditChatInfoPayload,
 } from "@apis/chat/edit-chat-info";
+import { useChat } from "@hooks/data/use-chat";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
 
 const cl = sassClasses(styles);
 

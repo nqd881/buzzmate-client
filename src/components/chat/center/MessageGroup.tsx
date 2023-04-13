@@ -1,5 +1,12 @@
 import { ApiMessage } from "@apis/models/chat";
 import { sassClasses } from "@utils";
+import {
+  differenceInDays,
+  differenceInMonths,
+  differenceInWeeks,
+  differenceInYears,
+  format,
+} from "date-fns";
 import React from "react";
 import { Message as MessageModel } from "src/models";
 import { Message } from "./Message";
@@ -17,13 +24,36 @@ export type MessageGroupProps = {
 };
 
 export const MessageGroup: React.FC<MessageGroupProps> = (props) => {
-  const { senderUserId, sentByMyself, messages } = props?.group;
+  const { sentByMyself, messages } = props?.group;
 
   const checkIsLastMessage = (index: number) => index === messages.length - 1;
 
+  const firstMessage = messages[0];
+
+  const formatTime = (date: Date) => {
+    const now = new Date();
+
+    const differenceDays = differenceInDays(now, date);
+    const differenceWeeks = differenceInWeeks(now, date);
+    const differenceYears = differenceInYears(now, date);
+
+    if (differenceDays < 1) return format(date, "kk:mm");
+
+    if (differenceWeeks < 1) return format(date, "EEEE, kk:mm");
+
+    if (differenceYears < 1) return format(date, "LLLL d");
+
+    return format(date, "LLLL d, yyyy");
+  };
+
   return (
     <div className={cl("MessageGroup")}>
-      {(messages || []).map((message, index) => (
+      <div className={cl("time_box")}>
+        <span className={cl("formatted_time")}>
+          {formatTime(firstMessage.date)}
+        </span>
+      </div>
+      {messages?.map((message, index) => (
         <Message
           key={message.id}
           sentByMyself={sentByMyself}

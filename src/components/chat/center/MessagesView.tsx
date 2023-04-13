@@ -1,11 +1,11 @@
 import { VerticalScrollableView } from "@components/shared/VerticalScrollableView";
 import { useChatCenterContext } from "@contexts/ChatCenterContext";
 import { useMessagesQuery } from "@hooks/api/useMessages.query";
-import { useMessages } from "@hooks/use-messages";
+import { useMessages } from "@hooks/data/use-messages";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
 import { useChatUserId } from "@hooks/useChatUserId";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
 import { sassClasses } from "@utils";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Message } from "src/models";
 import { MessageGroup } from "./MessageGroup";
 import styles from "./MessagesView.module.scss";
@@ -15,7 +15,7 @@ type MessageViewProps = {};
 const cl = sassClasses(styles);
 
 export const MessagesView: React.FC<MessageViewProps> = () => {
-  const { windowViewRef, messageRef } = useChatCenterContext();
+  const { messageViewRef, lastMessageRef } = useChatCenterContext();
 
   const chatUserId = useChatUserId();
 
@@ -24,10 +24,6 @@ export const MessagesView: React.FC<MessageViewProps> = () => {
   useMessagesQuery(currentChatId);
 
   const { messages } = useMessages(currentChatId);
-
-  useEffect(() => {
-    messageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, messageRef]);
 
   const buildGroups = (messages: Message[]) => {
     const result = [];
@@ -61,10 +57,16 @@ export const MessagesView: React.FC<MessageViewProps> = () => {
         break;
       }
 
-      if (
+      const changeSender =
         index !== 0 &&
-        messages[index].senderUserId !== messages[index - 1].senderUserId
-      ) {
+        messages[index].senderUserId !== messages[index - 1].senderUserId;
+
+      const timeBreak =
+        index !== 0 &&
+        messages[index].date.getTime() - messages[index - 1].date.getTime() >=
+          3 * 60 * 1000;
+
+      if (changeSender || timeBreak) {
         result.push(buildGroup(group));
         group = [];
       }
@@ -76,9 +78,30 @@ export const MessagesView: React.FC<MessageViewProps> = () => {
     return result;
   };
 
+  useEffect(() => {
+    const scrollToLastMessage = () => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    scrollToLastMessage();
+  }, [messages, lastMessageRef]);
+
+  // const handleClick = () => {
+  //   const lastMessageOffsetTop = lastMessageRef.current?.offsetTop;
+
+  //   const lastMessageRect = lastMessageRef.current?.getBoundingClientRect();
+
+  //   messageViewRef.current?.scrollTo({
+  //     top: lastMessageOffsetTop + lastMessageRect?.width,
+  //     behavior: "smooth",
+  //   });
+
+  //   lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
+
   return (
     <div className={cl("MessagesView")}>
-      <VerticalScrollableView ref={windowViewRef}>
+      <VerticalScrollableView ref={messageViewRef}>
         {buildGroups(messages).map(
           (group) => group && <MessageGroup key={group.id} group={group} />
         )}

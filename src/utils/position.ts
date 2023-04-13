@@ -1,4 +1,4 @@
-import {isNull, isUndefined} from "./checker";
+import { isNull, isUndefined } from "./checker";
 
 export interface MousePosition {
   clientX: number;
@@ -21,8 +21,8 @@ export class Position {
 export class VPP {
   private static viewportOrigin = new VPP(0, 0, null);
 
-  _value: Position;
-  _origin: VPP | null;
+  private _value: Position;
+  private _origin: VPP | null;
 
   constructor(x: number, y: number, origin?: HTMLElement | VPP | null) {
     this._value = new Position(x, y);
@@ -38,12 +38,12 @@ export class VPP {
   }
 
   static fromHTMLElement(element: HTMLElement) {
-    const {x, y} = element.getBoundingClientRect();
+    const { x, y } = element.getBoundingClientRect();
     return new VPP(x, y);
   }
 
   static fromMouse<E extends MousePosition>(ev: E) {
-    const {clientX, clientY} = ev;
+    const { clientX, clientY } = ev;
     return new VPP(clientX, clientY);
   }
 

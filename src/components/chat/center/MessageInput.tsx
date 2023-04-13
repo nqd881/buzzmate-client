@@ -33,10 +33,10 @@ import { BsEmojiSunglasses } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import { RiAttachment2 } from "react-icons/ri";
 import styles from "./MessageInput.module.scss";
-import { useMessages } from "@hooks/use-messages";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
 import { VerticalScrollableView } from "@components/shared/VerticalScrollableView";
 import { isPhotoFile, isVideoFile } from "@utils/file";
+import { useMessages } from "@hooks/data/use-messages";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
 
 const cl = sassClasses(styles);
 
@@ -195,10 +195,12 @@ export const MessageInput: React.FC<MessageInputProps> = (props) => {
   };
 
   const handleSendMessage = () => {
-    sendMessage({ message, files });
+    if (message || files) {
+      sendMessage({ message, files });
 
-    setMessage("");
-    setFiles(null);
+      setMessage("");
+      setFiles(null);
+    }
   };
 
   return (
@@ -228,7 +230,7 @@ export const MessageInput: React.FC<MessageInputProps> = (props) => {
           variant="unstyled"
           className={cl("enter-field")}
           ref={textInputRef}
-          placeholder="Enter Message"
+          placeholder="Message"
           type="text"
           value={message}
           onChange={handleOnTextChange}
@@ -246,7 +248,7 @@ export const MessageInput: React.FC<MessageInputProps> = (props) => {
           aria-label="emoji"
           variant="unstyled"
           onClick={() => openSelectFilesView()}
-          icon={<RiAttachment2 className={cl("input_icon")}></RiAttachment2>}
+          icon={<RiAttachment2 className={cl("input_icon")} />}
         ></IconButton>
       </div>
       <IconButton

@@ -1,6 +1,6 @@
 import { getMessagesApi } from "@apis/chat/get-messages";
 import { convertApiMessage } from "@hooks/convert/message";
-import { useMessages } from "@hooks/use-messages";
+import { useMessages } from "@hooks/data/use-messages";
 import { useQuery } from "@tanstack/react-query";
 
 export const useMessagesQuery = (chatId: string) => {
@@ -16,10 +16,6 @@ export const useMessagesQuery = (chatId: string) => {
     onSuccess: (data) => {
       data.map((apiMessage) => {
         const message = convertApiMessage(apiMessage);
-
-        const existMessage = findMessage(message.id);
-
-        if (existMessage) return;
 
         addMessage(message);
       });

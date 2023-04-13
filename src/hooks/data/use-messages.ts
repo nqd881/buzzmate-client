@@ -4,11 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import { compareAsc } from "date-fns";
 import _ from "lodash";
 import { Message } from "src/models";
-import { convertApiMessage } from "./convert/message";
 import { useChat } from "./use-chat";
-import { useChatUserId } from "./useChatUserId";
 import { v4 } from "uuid";
 import { isPhotoFile, isVideoFile } from "@utils/file";
+import { useChatUserId } from "@hooks/useChatUserId";
 
 export const useMessages = (chatId: string) => {
   const chatUserId = useChatUserId();
@@ -18,13 +17,13 @@ export const useMessages = (chatId: string) => {
   const { socket } = useChatSocketCtx();
 
   const findMessageIndex = (messageId: string) => {
-    return chat.messages.findIndex((message) => message.id === messageId);
+    return chat?.messages.findIndex((message) => message.id === messageId);
   };
 
   const findMessage = (messageId: string) => {
     const index = findMessageIndex(messageId);
 
-    return chat.messages[index];
+    return chat?.messages[index];
   };
 
   const setMessage = (

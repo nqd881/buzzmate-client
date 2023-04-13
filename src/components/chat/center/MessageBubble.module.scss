@@ -1,0 +1,25 @@
+.MessageBubble {
+  font-size: 0.9rem;
+  font-weight: bold;
+  max-width: min(500px, 60%);
+  border-radius: 0.5rem;
+  z-index: 2;
+  overflow: hidden;
+  padding: 0.6rem 0.8rem;
+  word-break: break-all;
+}
+
+.MessageMyBubble {
+  background-image: linear-gradient(
+    to right top,
+    #dfffc5,
+    #d9fdbc,
+    #d4fcb2,
+    #cefaa9,
+    #c8f89f
+  );
+}
+
+.MessageAnyBubble {
+  background-color: #ffffff;
+}

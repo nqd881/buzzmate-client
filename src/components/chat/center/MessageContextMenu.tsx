@@ -1,19 +1,19 @@
-import {Menu} from "@components/custom/Menu";
-import {MenuItem} from "@components/custom/MenuItem";
-import {useChatCenterContext} from "@contexts/ChatCenterContext";
-import {useContextMenuPosition} from "@hooks";
-import React, {useCallback, useRef} from "react";
-import {sassClasses, VPP} from "@utils";
+import { Menu } from "@components/custom/Menu";
+import { MenuItem } from "@components/custom/MenuItem";
+import { useChatCenterContext } from "@contexts/ChatCenterContext";
+import { useContextMenuPosition } from "@hooks";
+import React, { useCallback, useRef } from "react";
+import { sassClasses, VPP } from "@utils";
 import styles from "./MessageContextMenu.module.scss";
 
-import {TiArrowBackOutline, TiArrowForwardOutline} from "react-icons/ti";
+import { TiArrowBackOutline, TiArrowForwardOutline } from "react-icons/ti";
 import {
   MdContentCopy,
   MdOutlineCheckCircleOutline,
   MdOutlineDelete,
   MdOutlinePushPin,
 } from "react-icons/md";
-import {TbCopy} from "react-icons/tb";
+import { TbCopy } from "react-icons/tb";
 
 const cl = sassClasses(styles);
 
@@ -32,8 +32,8 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
 }) => {
   const {
     centerRef: rootRef,
-    currentMessage,
-    setCurrentMessage,
+    idMessageOpenContextMenu,
+    setIdMessageOpenContextMenu,
     selectMessageHandlers,
   } = useChatCenterContext();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -41,7 +41,7 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
   const getRootElement = useCallback(() => rootRef.current, [rootRef]);
   const getMenuElement = useCallback(() => menuRef.current, [menuRef]);
 
-  const {menuPosition, style} = useContextMenuPosition(
+  const { menuPosition, style } = useContextMenuPosition(
     anchor,
     getRootElement,
     getMenuElement,
@@ -51,9 +51,9 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
   const menuTransformOrigin = anchor.getRelativeTo(menuPosition);
 
   const handleSelect = () => {
-    if (currentMessage) {
-      selectMessageHandlers.selectMessages(currentMessage);
-      setCurrentMessage(undefined);
+    if (idMessageOpenContextMenu) {
+      selectMessageHandlers.selectMessages(idMessageOpenContextMenu);
+      setIdMessageOpenContextMenu(null);
     }
     closeContextMenu();
   };
@@ -88,7 +88,7 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
       <MenuItem
         icon={MdOutlineDelete}
         onClick={() => closeContextMenu()}
-        style={{color: "#dc0400"}}
+        style={{ color: "#dc0400" }}
       >
         Delete
       </MenuItem>

@@ -32,13 +32,14 @@ const useSelectedMessageHandlers = () => {
 };
 
 type ChatCenterContextValue = {
-  currentMessage: string | undefined;
   centerRef: RefObject<HTMLDivElement>;
-  windowViewRef: RefObject<HTMLDivElement>;
+  messageViewRef: RefObject<HTMLDivElement>;
   messageRef: RefObject<HTMLDivElement>;
+  lastMessageRef: RefObject<HTMLDivElement>;
   selectMessageHandlers: ReturnType<typeof useSelectedMessageHandlers>;
   contextMenuHandlers: ReturnType<typeof useContextMenuHandlers>;
-  setCurrentMessage: Dispatch<SetStateAction<string | undefined>>;
+  idMessageOpenContextMenu: string;
+  setIdMessageOpenContextMenu: Dispatch<SetStateAction<string>>;
 };
 
 const ChatCenterContext = React.createContext({} as ChatCenterContextValue);
@@ -49,24 +50,25 @@ export const ChatCenterContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const centerRef = useRef<HTMLDivElement>(null);
-  const windowViewRef = useRef<HTMLDivElement>(null);
+  const messageViewRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
   const selectMessageHandlers = useSelectedMessageHandlers();
   const contextMenuHandlers = useContextMenuHandlers();
 
-  const [currentMessage, setCurrentMessage] = useState<string | undefined>(
-    undefined
-  );
+  const [idMessageOpenContextMenu, setIdMessageOpenContextMenu] =
+    useState(null);
 
   const value = {
-    currentMessage,
-    windowViewRef,
+    messageViewRef,
     centerRef,
     messageRef,
+    lastMessageRef,
     selectMessageHandlers,
     contextMenuHandlers,
-    setCurrentMessage,
+    idMessageOpenContextMenu,
+    setIdMessageOpenContextMenu,
   };
 
   return (

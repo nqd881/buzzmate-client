@@ -6,50 +6,38 @@ import {
   ComponentWithAs,
   Input,
   useDisclosure,
-  VStack,
 } from "@chakra-ui/react";
 import { VerticalScrollableView } from "@components/shared/VerticalScrollableView";
-import React, { ChangeEvent, useState } from "react";
-import { sassClasses } from "@utils";
-import styles from "./MembersTab.module.scss";
-import { useCurrentChatId } from "@hooks/useCurrentChatId";
-import { useMembers } from "@hooks/user-members";
-import { Member as MemberModel } from "src/models";
 import { useMembersQuery } from "@hooks/api/useMembers.query";
+import { sassClasses } from "@utils";
+import React, { ChangeEvent, ForwardedRef, RefObject, useState } from "react";
+import styles from "./MembersTab.module.scss";
 
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { removeMemberApi } from "@apis/chat/remove-member";
 import { banMemberApi } from "@apis/chat/ban-member";
-import { IoAddSharp } from "react-icons/io5";
 import { getUsersApi } from "@apis/chat/get-users";
+import { removeMemberApi } from "@apis/chat/remove-member";
+import { useMembers } from "@hooks/data/user-members";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { IoAddSharp } from "react-icons/io5";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
 
 const cl = sassClasses(styles);
 
 type MemberProps = {
   chatId: string;
   memberId: string;
-  // data: MemberModel;
 };
 
 export type ChakraButtonProps = ComponentWithAs<"button", ButtonProps> extends (
@@ -85,14 +73,17 @@ const Member: React.FC<MemberProps> = ({ chatId, memberId }) => {
     banMemberMutation.mutateAsync();
   };
 
-  const CustomButton = (props: ChakraButtonProps) => {
+  const CustomButton = React.forwardRef(function _CustomButton(
+    props: ChakraButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) {
     return (
       <Button
+        ref={ref}
         {...props}
         size="lg"
         height="4rem"
         p="0.8rem"
-        bgColor="transparent"
         className={cl("Member")}
       >
         <Box>
@@ -106,7 +97,7 @@ const Member: React.FC<MemberProps> = ({ chatId, memberId }) => {
         </div>
       </Button>
     );
-  };
+  });
 
   return (
     <Menu>
@@ -129,6 +120,7 @@ export const InviteUsers = () => {
   const [searchResult, setSearchResult] = useState([]);
 
   const search = useQuery({
+    queryKey: ["search", "users"],
     queryFn: () => getUsersApi({}),
     onSuccess: () => {},
   });
