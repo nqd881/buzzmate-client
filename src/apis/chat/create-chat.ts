@@ -6,6 +6,6 @@ export type CreateChatPayload = {
   memberUserIds: string[];
 };
 
-export const createChatApi = (payload: CreateChatPayload) => {
+export const createChatApi = async (payload: CreateChatPayload) => {
   return ApiClient.post("/api/chat-svc/chats", payload);
 };

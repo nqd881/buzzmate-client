@@ -27,6 +27,7 @@ export class ApiFile {
   name: string;
   size: number;
   mimetype: string;
+  date: Date;
 }
 
 export class ApiPhotoSize {
@@ -37,22 +38,24 @@ export class ApiPhotoSize {
 
 export class ApiPhoto {
   id: string;
-  original: ApiPhotoSize;
-  variants: Map<string, ApiPhotoSize>;
+  chatId: string;
+  file: ApiFile;
 }
 
 export class ApiVideo {
   id: string;
+  chatId: string;
   width: number;
   height: number;
   duration: number;
   thumbnail: any;
-  file: File;
+  file: ApiFile;
 }
 
 export class ApiDocument {
   id: string;
-  file: File;
+  chatId: string;
+  file: ApiFile;
 }
 
 export class ApiMessage {

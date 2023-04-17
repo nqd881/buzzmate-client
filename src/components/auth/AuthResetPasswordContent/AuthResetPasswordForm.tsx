@@ -1,6 +1,6 @@
 import { sassClasses } from "@utils";
 import { Formik, FormikConfig } from "formik";
-import { AuthInput } from "../AuthInput";
+import { FormikCustomInput } from "../../custom/FormikCustomInput";
 import { AuthSubmitButton } from "../AuthSubmitButton";
 import { ResetPasswordSides } from "./AuthResetPasswordContent";
 import styles from "../Content.module.scss";
@@ -50,8 +50,8 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
     <Formik {...formConfig}>
       {(form) => (
         <form className={cl("root")} onSubmit={form.handleSubmit}>
-          <AuthInput placeholder="Reset code" name="code" required />
-          <AuthInput
+          <FormikCustomInput placeholder="Reset code" name="code" required />
+          <FormikCustomInput
             placeholder="New password"
             name="newPassword"
             type="password"

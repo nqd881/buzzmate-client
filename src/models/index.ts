@@ -65,3 +65,11 @@ export type Chat = {
   members: Member[];
   medias: Media[];
 };
+
+export type ChatUser = {
+  identity: string;
+  id: string;
+  emailAddress: string;
+  name: string;
+  type: string;
+};

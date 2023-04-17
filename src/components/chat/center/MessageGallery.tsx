@@ -1,5 +1,5 @@
 import { sassClasses } from "@utils";
-import Image from "next/image";
+import Image, { ImageLoader } from "next/image";
 import React, { PropsWithChildren } from "react";
 import { Photo, Video } from "src/models";
 import styles from "./MessageGallery.module.scss";
@@ -19,6 +19,10 @@ const MessageGalleryPhoto: React.FC<any> = (props: { photo: Photo }) => {
     console.log("Click click");
   };
 
+  const myLoader: ImageLoader = ({ src, width, quality }) => {
+    return "http://buzzmate.com";
+  };
+
   return (
     <Image
       className={cl("MessageGalleryPhoto")}
@@ -26,13 +30,15 @@ const MessageGalleryPhoto: React.FC<any> = (props: { photo: Photo }) => {
       key={photo.id}
       fill
       sizes="100%"
-      src={
-        Boolean(photo.localUri)
-          ? photo.localUri
-          : Boolean(photo.remoteUri)
-          ? `${photo.remoteUri}?t=${new Date().getTime()}`
-          : ""
-      }
+      loader={myLoader}
+      src=""
+      // src={
+      //   Boolean(photo.localUri)
+      //     ? photo.localUri
+      //     : Boolean(photo.remoteUri)
+      //     ? `${photo.remoteUri}?t=${new Date().getTime()}`
+      //     : ""
+      // }
       onClick={handleClick}
     />
   );

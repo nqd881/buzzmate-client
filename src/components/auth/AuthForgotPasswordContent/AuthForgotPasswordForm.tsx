@@ -2,15 +2,15 @@ import {
   forgotPasswordApi,
   ForgotPasswordPayload,
 } from "@apis/auth/forgot-password";
-import {useMutation} from "@tanstack/react-query";
-import {sassClasses} from "@utils";
+import { useMutation } from "@tanstack/react-query";
+import { sassClasses } from "@utils";
 import base64url from "base64url";
-import {Formik, FormikConfig} from "formik";
-import {useRouter} from "next/router";
-import {AuthInput} from "../AuthInput";
-import {AuthSubmitButton} from "../AuthSubmitButton";
+import { Formik, FormikConfig } from "formik";
+import { useRouter } from "next/router";
+import { FormikCustomInput } from "../../custom/FormikCustomInput";
+import { AuthSubmitButton } from "../AuthSubmitButton";
 import styles from "../Content.module.scss";
-import {ForgotPasswordSide} from "./AuthForgotPasswordContent";
+import { ForgotPasswordSide } from "./AuthForgotPasswordContent";
 
 const cl = sassClasses(styles);
 
@@ -47,10 +47,10 @@ export const AuthForgotPasswordForm: React.FC<AuthForgotPasswordFormProps> = ({
     <Formik {...formConfig}>
       {(form) => (
         <form className={cl("root")} onSubmit={form.handleSubmit}>
-          <AuthInput
-            placeholder='Email'
-            type='email'
-            name='emailAddress'
+          <FormikCustomInput
+            placeholder="Email"
+            type="email"
+            name="emailAddress"
             required
           />
           <AuthSubmitButton isLoading={false}>Next</AuthSubmitButton>

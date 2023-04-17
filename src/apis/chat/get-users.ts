@@ -1,4 +1,5 @@
 import { ApiClient } from "@apis/base";
+import { ApiChatUser } from "@apis/models/chat";
 
 export type GetUsersOptions = {
   limit?: number;
@@ -18,5 +19,7 @@ export const getUsersApi = (options?: GetUsersOptions) => {
   if (emails) emails.forEach((email) => queries.append("email", email));
   if (names) names.forEach((name) => queries.append("name", name));
 
-  return ApiClient.get(`/api/chat-svc/users?${queries}`);
+  return ApiClient.get<ApiChatUser[], ApiChatUser[]>(
+    `/api/chat-svc/users?${queries}`
+  );
 };

@@ -121,7 +121,7 @@ export const InviteUsers = () => {
 
   const search = useQuery({
     queryKey: ["search", "users"],
-    queryFn: () => getUsersApi({}),
+    queryFn: async () => {},
     onSuccess: () => {},
   });
 

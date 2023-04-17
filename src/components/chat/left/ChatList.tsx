@@ -9,11 +9,8 @@ const cl = sassClasses(styles);
 
 export const ChatList = () => {
   useInitialChatsQuery();
-  // const {data} = useInitialChatsQuery();
 
   const { chats } = useChatCtx();
-
-  console.log(chats);
 
   return (
     <VerticalScrollableView>

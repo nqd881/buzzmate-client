@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sassClasses } from "@utils";
 import { Formik, FormikConfig } from "formik";
 import { useRouter } from "next/router";
-import { AuthInput } from "../AuthInput";
+import { FormikCustomInput } from "../../custom/FormikCustomInput";
 import AuthLink from "../AuthLink";
 import { AuthSubmitButton } from "../AuthSubmitButton";
 import styles from "../Content.module.scss";
@@ -44,12 +44,12 @@ export const AuthSigninForm = () => {
     <Formik {...formConfig}>
       {(form) => (
         <form className={cl("root")} onSubmit={form.handleSubmit}>
-          <AuthInput
+          <FormikCustomInput
             placeholder="Username or email"
             name="usernameOrEmail"
             required
           />
-          <AuthInput
+          <FormikCustomInput
             placeholder="Password"
             name="password"
             type="password"
