@@ -16,7 +16,12 @@ const nextConfig = {
     prependData: `@use "src/styles/variables.scss" as vars;`,
   },
   images: {
-    domains: ["buzzmate.com", "wallpaperaccess.com"],
+    domains: [
+      "buzzmate.com",
+      "buzzmate.fun",
+      "wallpaperaccess.com",
+      "34.101.174.235",
+    ],
     minimumCacheTTL: 60,
   },
 };

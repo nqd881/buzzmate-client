@@ -26,7 +26,7 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
 }) => {
   const router = useRouter();
 
-  const emailAddress = base64url.decode(router.query.email as string);
+  const emailAddress = base64url.decode((router.query.email as string) || "");
 
   const resetPassword = useMutation({
     mutationFn: resetPasswordApi,
