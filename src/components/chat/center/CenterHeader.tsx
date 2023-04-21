@@ -10,7 +10,7 @@ import { TbDotsVertical } from "react-icons/tb";
 import { sassClasses } from "@utils/buildClassName";
 import styles from "./CenterHeader.module.scss";
 import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
-import { useChat } from "@hooks/data/use-chat";
+import { useChat } from "@hooks/data-x/useChat";
 
 const cl = sassClasses(styles);
 
@@ -36,7 +36,7 @@ export const CenterHeader = () => {
 
   const currentChatId = useCurrentChatId();
 
-  const { chat: currentChat } = useChat(currentChatId);
+  const currentChat = useChat(currentChatId);
 
   return (
     <div className={cl("CenterHeader")}>

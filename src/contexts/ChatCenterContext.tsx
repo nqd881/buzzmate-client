@@ -38,8 +38,16 @@ type ChatCenterContextValue = {
   lastMessageRef: RefObject<HTMLDivElement>;
   selectMessageHandlers: ReturnType<typeof useSelectedMessageHandlers>;
   contextMenuHandlers: ReturnType<typeof useContextMenuHandlers>;
-  idMessageOpenContextMenu: string;
-  setIdMessageOpenContextMenu: Dispatch<SetStateAction<string>>;
+  openContextMenuMessageId: string;
+  setOpenContextMenuMessageId: Dispatch<SetStateAction<string>>;
+  replying: boolean;
+  setReplying: Dispatch<SetStateAction<boolean>>;
+  replyMessageId: string;
+  setReplyMessageId: Dispatch<SetStateAction<string>>;
+  forwarding: boolean;
+  setForwarding: Dispatch<SetStateAction<boolean>>;
+  forwardMessageId: string;
+  setForwardMessageId: Dispatch<SetStateAction<string>>;
 };
 
 const ChatCenterContext = React.createContext({} as ChatCenterContextValue);
@@ -57,8 +65,14 @@ export const ChatCenterContextProvider: React.FC<PropsWithChildren> = ({
   const selectMessageHandlers = useSelectedMessageHandlers();
   const contextMenuHandlers = useContextMenuHandlers();
 
-  const [idMessageOpenContextMenu, setIdMessageOpenContextMenu] =
+  const [openContextMenuMessageId, setOpenContextMenuMessageId] =
     useState(null);
+
+  const [forwarding, setForwarding] = useState(false);
+  const [forwardMessageId, setForwardMessageId] = useState(null);
+
+  const [replying, setReplying] = useState(false);
+  const [replyMessageId, setReplyMessageId] = useState(null);
 
   const value = {
     messageViewRef,
@@ -67,8 +81,16 @@ export const ChatCenterContextProvider: React.FC<PropsWithChildren> = ({
     lastMessageRef,
     selectMessageHandlers,
     contextMenuHandlers,
-    idMessageOpenContextMenu,
-    setIdMessageOpenContextMenu,
+    openContextMenuMessageId,
+    setOpenContextMenuMessageId,
+    replying,
+    setReplying,
+    replyMessageId,
+    setReplyMessageId,
+    forwarding,
+    setForwarding,
+    forwardMessageId,
+    setForwardMessageId,
   };
 
   return (

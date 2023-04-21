@@ -19,7 +19,7 @@ export type MessageGroupProps = {
     id: string;
     senderUserId: string;
     sentByMyself: boolean;
-    messages: MessageModel[];
+    messages: ApiMessage[];
   };
 };
 
@@ -37,9 +37,9 @@ export const MessageGroup: React.FC<MessageGroupProps> = (props) => {
     const differenceWeeks = differenceInWeeks(now, date);
     const differenceYears = differenceInYears(now, date);
 
-    if (differenceDays < 1) return format(date, "kk:mm");
+    if (differenceDays < 1) return format(date, "HH:mm");
 
-    if (differenceWeeks < 1) return format(date, "EEEE, kk:mm");
+    if (differenceWeeks < 1) return format(date, "EEEE, HH:mm");
 
     if (differenceYears < 1) return format(date, "LLLL d");
 
@@ -50,7 +50,7 @@ export const MessageGroup: React.FC<MessageGroupProps> = (props) => {
     <div className={cl("MessageGroup")}>
       <div className={cl("time_box")}>
         <span className={cl("formatted_time")}>
-          {formatTime(firstMessage.date)}
+          {formatTime(new Date(firstMessage.date))}
         </span>
       </div>
       {messages?.map((message, index) => (

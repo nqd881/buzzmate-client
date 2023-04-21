@@ -1,6 +1,7 @@
+import { ApiMessage } from "@apis/models/chat";
 import { Avatar, Checkbox } from "@chakra-ui/react";
 import { useChatCenterContext } from "@contexts/ChatCenterContext";
-import { useLastMessageId } from "@hooks/data/use-last-message";
+import { useLastMessage } from "@hooks/data-x/useLastMessage";
 import { sassClasses } from "@utils";
 import React from "react";
 import { Message as MessageModel } from "src/models";
@@ -11,7 +12,7 @@ import { MessageGallery } from "./MessageGallery";
 const cl = sassClasses(styles);
 
 export type MessageProps = {
-  message: MessageModel;
+  message: ApiMessage;
   sentByMyself: boolean;
   isLastMessage?: boolean;
 };
@@ -23,15 +24,15 @@ export const Message: React.FC<MessageProps> = ({
 }) => {
   const { content } = message;
 
-  const lastMessageId = useLastMessageId(message?.chatId);
+  const lastMessage = useLastMessage(message?.chatId);
 
-  const isLastMessageOfChat = message?.id === lastMessageId;
+  const isLastMessageOfChat = message?.id === lastMessage?.id;
 
   const {
     lastMessageRef,
     selectMessageHandlers,
     contextMenuHandlers,
-    setIdMessageOpenContextMenu,
+    setOpenContextMenuMessageId,
   } = useChatCenterContext();
   const { selectedMessagesCount, toggleSelectMessage, isSelectedMessage } =
     selectMessageHandlers;
@@ -45,7 +46,7 @@ export const Message: React.FC<MessageProps> = ({
   const handleContextMenu = (ev: React.MouseEvent) => {
     openContextMenu(ev);
 
-    setIdMessageOpenContextMenu(message?.id);
+    setOpenContextMenuMessageId(message?.id);
   };
 
   const fullClassName = cl([

@@ -14,6 +14,10 @@ import {
   MdOutlinePushPin,
 } from "react-icons/md";
 import { TbCopy } from "react-icons/tb";
+import { useMessage } from "@hooks/data-x/useMessage";
+import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
+import { usePinMessagesMutation } from "@hooks/api-v2/usePinMessagesMutation";
+import { useHideMessagesMutation } from "@hooks/api-v2/useHideMessagesMutation";
 
 const cl = sassClasses(styles);
 
@@ -32,11 +36,24 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
 }) => {
   const {
     centerRef: rootRef,
-    idMessageOpenContextMenu,
-    setIdMessageOpenContextMenu,
     selectMessageHandlers,
+    openContextMenuMessageId,
+    setOpenContextMenuMessageId,
+    setReplying,
+    setReplyMessageId,
+    setForwarding,
+    setForwardMessageId,
   } = useChatCenterContext();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const currentChatId = useCurrentChatId();
+  const { message: openContextMenuMessage } = useMessage(
+    currentChatId,
+    openContextMenuMessageId
+  );
+
+  const pinMessagesMutation = usePinMessagesMutation();
+  const hideMessageMutation = useHideMessagesMutation();
 
   const getRootElement = useCallback(() => rootRef.current, [rootRef]);
   const getMenuElement = useCallback(() => menuRef.current, [menuRef]);
@@ -50,12 +67,63 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
   );
   const menuTransformOrigin = anchor.getRelativeTo(menuPosition);
 
-  const handleSelect = () => {
-    if (idMessageOpenContextMenu) {
-      selectMessageHandlers.selectMessages(idMessageOpenContextMenu);
-      setIdMessageOpenContextMenu(null);
-    }
+  const handleCloseContextMenu = () => {
+    setOpenContextMenuMessageId(null);
+
     closeContextMenu();
+  };
+
+  const handleSelect = () => {
+    selectMessageHandlers.selectMessages(openContextMenuMessageId);
+
+    handleCloseContextMenu();
+  };
+
+  const handleReply = () => {
+    setReplying(true);
+    setReplyMessageId(openContextMenuMessageId);
+
+    handleCloseContextMenu();
+  };
+
+  const handleCopy = () => {
+    const text = openContextMenuMessage.content?.text;
+
+    if (navigator && text) {
+      try {
+        navigator.clipboard.writeText(text);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    handleCloseContextMenu();
+  };
+
+  const handlePin = () => {
+    pinMessagesMutation.mutateAsync({
+      chatId: currentChatId,
+      messageIds: [openContextMenuMessageId],
+      shouldPin: true,
+    });
+
+    handleCloseContextMenu();
+  };
+
+  const handleForward = () => {
+    setForwarding(true);
+    setForwardMessageId(openContextMenuMessageId);
+
+    handleCloseContextMenu();
+  };
+
+  const handleDelete = () => {
+    hideMessageMutation.mutateAsync({
+      chatId: currentChatId,
+      messageIds: [openContextMenuMessageId],
+    });
+
+    handleCloseContextMenu();
   };
 
   return (
@@ -67,19 +135,19 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
       positionX={menuTransformOrigin.x}
       positionY={menuTransformOrigin.y}
       onCloseTransitionEnd={clearContextMenuPosition}
-      onClose={closeContextMenu}
+      onClose={handleCloseContextMenu}
       shadow
     >
-      <MenuItem icon={TiArrowBackOutline} onClick={() => closeContextMenu()}>
+      <MenuItem icon={TiArrowBackOutline} onClick={handleReply}>
         Reply
       </MenuItem>
-      <MenuItem icon={TbCopy} onClick={() => closeContextMenu()}>
+      <MenuItem icon={TbCopy} onClick={handleCopy}>
         Copy
       </MenuItem>
-      <MenuItem icon={MdOutlinePushPin} onClick={() => closeContextMenu()}>
+      <MenuItem icon={MdOutlinePushPin} onClick={handlePin}>
         Pin
       </MenuItem>
-      <MenuItem icon={TiArrowForwardOutline} onClick={() => closeContextMenu()}>
+      <MenuItem icon={TiArrowForwardOutline} onClick={handleForward}>
         Forward
       </MenuItem>
       <MenuItem icon={MdOutlineCheckCircleOutline} onClick={handleSelect}>
@@ -87,7 +155,7 @@ export const MessageContextMenu: React.FC<MessageContextProps> = ({
       </MenuItem>
       <MenuItem
         icon={MdOutlineDelete}
-        onClick={() => closeContextMenu()}
+        onClick={handleDelete}
         style={{ color: "#dc0400" }}
       >
         Delete

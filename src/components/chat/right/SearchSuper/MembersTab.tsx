@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { VerticalScrollableView } from "@components/shared/VerticalScrollableView";
-import { useMembersQuery } from "@hooks/api/useMembers.query";
+// import { useMembersQuery } from "@hooks/api/useMembers.query";
 import { sassClasses } from "@utils";
 import React, { ChangeEvent, ForwardedRef, RefObject, useState } from "react";
 import styles from "./MembersTab.module.scss";
@@ -28,10 +28,12 @@ import {
 import { banMemberApi } from "@apis/chat/ban-member";
 import { getUsersApi } from "@apis/chat/get-users";
 import { removeMemberApi } from "@apis/chat/remove-member";
-import { useMembers } from "@hooks/data/user-members";
+// import { useMembers } from "@hooks/data/user-members";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { IoAddSharp } from "react-icons/io5";
 import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
+import { useMembers } from "@hooks/data-x/useMembers";
+import { useMembersQuery } from "@hooks/api-v2/useMembersQuery";
 
 const cl = sassClasses(styles);
 
@@ -84,6 +86,7 @@ const Member: React.FC<MemberProps> = ({ chatId, memberId }) => {
         size="lg"
         height="4rem"
         p="0.8rem"
+        bgColor="transparent"
         className={cl("Member")}
       >
         <Box>
@@ -119,18 +122,16 @@ export const InviteUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const search = useQuery({
-    queryKey: ["search", "users"],
-    queryFn: async () => {},
-    onSuccess: () => {},
-  });
+  // const search = useQuery({
+  //   queryKey: ["search", "users"],
+  //   queryFn: async () => [],
+  //   onSuccess: () => {},
+  // });
 
   const onSearchQueryChange = (ev: ChangeEvent<HTMLInputElement>) => {
-    const value = ev.target.value;
-
-    setSearchQuery(value);
-
-    search.refetch();
+    // const value = ev.target.value;
+    // setSearchQuery(value);
+    // search.refetch();
   };
 
   return (

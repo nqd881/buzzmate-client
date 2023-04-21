@@ -26,8 +26,10 @@ import {
   editChatInfoApi,
   EditChatInfoPayload,
 } from "@apis/chat/edit-chat-info";
-import { useChat } from "@hooks/data/use-chat";
+// import { useChat } from "@hooks/data/use-chat";
 import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
+import { useChat } from "@hooks/data-x/useChat";
+import { CustomInput } from "@components/custom";
 
 const cl = sassClasses(styles);
 
@@ -39,7 +41,7 @@ interface UpdateChatInfoForm {
 export const ProfileHeader = () => {
   const currentChatId = useCurrentChatId();
 
-  const { chat } = useChat(currentChatId);
+  const chat = useChat(currentChatId);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const updateBtnRef = React.useRef(null);
@@ -90,8 +92,8 @@ export const ProfileHeader = () => {
               {(form) => (
                 <form onSubmit={form.handleSubmit}>
                   <VStack>
-                    <Input placeholder="Title" name="title" />
-                    <Input placeholder="Description" name="description" />
+                    <CustomInput placeholder="Title" name="title" />
+                    <CustomInput placeholder="Description" name="description" />
                     <Button
                       ref={updateBtnRef}
                       display="none"

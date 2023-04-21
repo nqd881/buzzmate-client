@@ -1,6 +1,6 @@
 import { VerticalScrollableView } from "@components/shared/VerticalScrollableView";
-import { useChatCtx } from "@contexts/ChatContext";
-import { useInitialChatsQuery } from "@hooks/api/useInitialChats.query";
+import { useChatsQuery } from "@hooks/api-v2/useChatsQuery";
+import { useChats } from "@hooks/data-x/useChats";
 import { sassClasses } from "@utils";
 import styles from "./ChatList.module.scss";
 import { ChatroomItem } from "./ChatroomItem";
@@ -8,15 +8,15 @@ import { ChatroomItem } from "./ChatroomItem";
 const cl = sassClasses(styles);
 
 export const ChatList = () => {
-  useInitialChatsQuery();
+  useChatsQuery();
 
-  const { chats } = useChatCtx();
+  const { chats, sortChatsDesc } = useChats();
 
   return (
     <VerticalScrollableView>
       <div className={cl("ChatList")}>
-        {chats?.map((chatroom) => (
-          <ChatroomItem key={chatroom?.id} data={chatroom} />
+        {sortChatsDesc(chats).map((chat) => (
+          <ChatroomItem key={chat?.id} data={chat} />
         ))}
       </div>
     </VerticalScrollableView>

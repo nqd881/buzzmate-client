@@ -17,6 +17,7 @@ const nextConfig = {
   },
   images: {
     domains: ["buzzmate.com", "wallpaperaccess.com"],
+    minimumCacheTTL: 60,
   },
 };
 

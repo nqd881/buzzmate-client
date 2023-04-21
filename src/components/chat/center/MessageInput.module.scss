@@ -4,63 +4,131 @@ $input_icon_size: 1.5rem;
 
 .MessageInput {
   padding: 0.2rem 0.5rem 0.7rem 0.5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 
-  .input-container {
-    background-color: #fff;
+  z-index: 10;
+  // text-align: center;
+
+  .container {
+    margin: 0 auto;
     width: 100%;
     max-width: 600px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 1rem;
-    padding: 0.5rem;
-    position: relative;
+    align-items: flex-end;
 
-    .enter-field {
+    .input {
       flex: 1;
-      margin: 0 0.5rem;
-      background-color: transparent;
-      outline: none;
+
+      .reply_box {
+        background-color: #fff;
+        border-radius: 1rem 1rem 0 0;
+        padding: 0.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        // .reply_message_divider {
+        //   background-color: #3390ec;
+        //   height: 5px;
+        //   width: 3px;
+        // }
+
+        .reply_message_view {
+          flex: 1;
+          padding: 4px 0;
+
+          // border-left: 3px solid #393939;
+          // padding-left: 0.75rem;
+
+          .reply_message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            border-left: 3px solid #393939;
+            padding-left: 0.75rem;
+
+            .reply_message_sender {
+              font-size: 0.9rem;
+            }
+
+            .reply_message_content {
+              font-size: 0.8rem;
+            }
+          }
+        }
+
+        .close_reply_btn {
+          text-align: center;
+          border-radius: 50%;
+          background-color: transparent;
+
+          .close_reply_icon {
+            // margin: 0 auto;
+            aspect-ratio: 1;
+            height: 1.6rem;
+            width: 1.6rem;
+          }
+        }
+      }
+
+      .input_box {
+        background-color: #fff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        position: relative;
+
+        &.input_box_replying {
+          border-radius: 0 0 1rem 1rem;
+          padding-top: 0;
+        }
+
+        .enter-field {
+          flex: 1;
+          margin: 0 0.5rem;
+          background-color: transparent;
+          outline: none;
+        }
+
+        .input_icon {
+          height: $input_icon_size;
+          width: $input_icon_size;
+          color: #434343;
+          margin: auto;
+        }
+
+        .emoji_picker_box {
+          position: absolute;
+          bottom: 100%;
+          left: 0;
+          padding: 0.5rem 0;
+          z-index: 100;
+        }
+      }
     }
 
-    .input_icon {
-      height: $input_icon_size;
-      width: $input_icon_size;
-      color: #434343;
-      margin: auto;
-    }
+    .send_btn {
+      min-width: 0;
+      height: $send_btn_size;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-left: 0.5rem;
+      background-color: #3390ec;
 
-    .emoji_picker_box {
-      position: absolute;
-      bottom: 100%;
-      left: 0;
-      padding: 0.5rem 0;
-      z-index: 100;
-    }
-  }
-
-  .send_btn {
-    min-width: 0;
-    height: $send_btn_size;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0.5rem;
-    background-color: #3390ec;
-
-    .send_icon {
-      height: $send_icon_size;
-      width: $send_icon_size;
-      color: rgb(255, 255, 255);
-      transform: translateX(0.2rem);
+      .send_icon {
+        height: $send_icon_size;
+        width: $send_icon_size;
+        color: rgb(255, 255, 255);
+        transform: translateX(0.2rem);
+      }
     }
   }
 }

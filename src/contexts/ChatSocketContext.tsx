@@ -1,6 +1,7 @@
-import { convertApiMessage } from "@hooks/convert/message";
-import { useChats } from "@hooks/data/use-chats";
+import { KEY_LIST_CHATS } from "@hooks/api-v2/keys";
+import { buildMessagesHandlers } from "@hooks/data-x/useMessages";
 import { useSocket } from "@hooks/useSocket";
+import { useQueryClient } from "@tanstack/react-query";
 import React, { PropsWithChildren, useEffect } from "react";
 import { Socket } from "socket.io-client";
 
@@ -13,6 +14,8 @@ const ChatSocketContext = React.createContext<ChatSocketContextValue>(
 );
 
 export const ChatSocketProvider: React.FC<PropsWithChildren> = (props) => {
+  const queryClient = useQueryClient();
+
   const socket = useSocket({
     path: "/api/chat-svc/socket/socket.io",
     auth: (cb) => {
@@ -20,45 +23,44 @@ export const ChatSocketProvider: React.FC<PropsWithChildren> = (props) => {
         accessToken: localStorage.getItem("access_token"),
       });
     },
+    reconnection: true,
+    reconnectionAttempts: 20,
   });
-
-  const { setChats } = useChats();
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on("message_created", (message) => {
-      const messageReceived = convertApiMessage(message);
+      const chatId = message.chatId;
 
-      setChats((chats) =>
-        chats.map((chat) => {
-          if (chat.id === messageReceived.chatId) {
-            const draftMessageIndex = chat.messages.findIndex(
-              (message) => message.isDraft && message.id === messageReceived.id
-            );
+      const { findMessage, addMessages, replaceMessage } =
+        buildMessagesHandlers(queryClient, chatId);
 
-            const shouldUpdate = draftMessageIndex >= 0;
+      const localMessage = findMessage(message.id);
 
-            if (shouldUpdate)
-              return {
-                ...chat,
-                messages: chat.messages.map((message, index) => {
-                  if (index === draftMessageIndex)
-                    return { ...messageReceived, content: message.content };
+      if (localMessage) {
+        replaceMessage(localMessage.id, message);
 
-                  return message;
-                }),
-              };
+        return;
+      }
 
-            return {
-              ...chat,
-              messages: [...chat.messages, messageReceived],
-            };
-          }
+      addMessages(message);
+    });
 
-          return chat;
-        })
-      );
+    // socket.on("signal_chat_created", () => {
+    //   console.log("Received a signal: Chat Created");
+
+    //   queryClient.refetchQueries({ queryKey: KEY_LIST_CHATS, exact: true });
+    // });
+
+    socket.on("join_new_chat", (chatId: string) => {
+      console.log("Join new chat: ", chatId);
+
+      queryClient.refetchQueries({
+        queryKey: KEY_LIST_CHATS,
+        exact: true,
+        type: "all",
+      });
     });
 
     return () => {

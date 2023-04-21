@@ -1,10 +1,10 @@
-import React, { ForwardedRef, PropsWithChildren } from "react";
+import React, { ForwardedRef, HTMLProps, PropsWithChildren } from "react";
 import { sassClasses } from "@utils";
 import styles from "./VerticalScrollableView.module.scss";
 
 const cl = sassClasses(styles);
 
-export type VerticalScrollableViewProps = {
+export type VerticalScrollableViewProps = HTMLProps<HTMLDivElement> & {
   hidden?: boolean;
 };
 
@@ -20,6 +20,7 @@ export const VerticalScrollableView = React.forwardRef(
           "VerticalScrollableView",
           props?.hidden ? "hidden" : "",
         ])}
+        {...props}
       >
         {props?.children}
       </div>

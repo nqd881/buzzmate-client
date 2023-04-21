@@ -1,3 +1,4 @@
+import { ApiPhoto, ApiVideo } from "@apis/models/chat";
 import { sassClasses } from "@utils";
 import Image, { ImageLoader } from "next/image";
 import React, { PropsWithChildren } from "react";
@@ -12,16 +13,17 @@ const MessageGalleryItemWrapper: React.FC<PropsWithChildren> = (props) => {
   return <div className={cl("MessageGalleryItem")}>{children}</div>;
 };
 
-const MessageGalleryPhoto: React.FC<any> = (props: { photo: Photo }) => {
+const MessageGalleryPhoto: React.FC<any> = (props: { photo: ApiPhoto }) => {
   const { photo } = props;
 
   const handleClick = () => {
     console.log("Click click");
   };
 
-  const myLoader: ImageLoader = ({ src, width, quality }) => {
-    return "http://buzzmate.com";
-  };
+  // const myLoader: ImageLoader = ({ src, width, quality }) => {
+  // return "";
+  // // return `http://buzzmate.com/api/chat-svc/chats/${photo.chatId}/photos/${photoId}/original`;
+  // };
 
   return (
     <Image
@@ -30,34 +32,26 @@ const MessageGalleryPhoto: React.FC<any> = (props: { photo: Photo }) => {
       key={photo.id}
       fill
       sizes="100%"
-      loader={myLoader}
-      src=""
-      // src={
-      //   Boolean(photo.localUri)
-      //     ? photo.localUri
-      //     : Boolean(photo.remoteUri)
-      //     ? `${photo.remoteUri}?t=${new Date().getTime()}`
-      //     : ""
-      // }
+      src={photo.url}
       onClick={handleClick}
     />
   );
 };
 
-const MessageGalleryVideo: React.FC<{ video: Video }> = ({ video }) => {
+const MessageGalleryVideo: React.FC<{ video: ApiVideo }> = ({ video }) => {
   return (
     <video
       className={cl("MessageGalleryVideo")}
       key={video.id}
-      src={video.uri}
+      src={video.url}
       controls
     />
   );
 };
 
 export const MessageGallery = React.memo(function MessageGallery(props: {
-  photos?: Photo[];
-  videos?: Video[];
+  photos?: ApiPhoto[];
+  videos?: ApiVideo[];
   direction?: "ltr" | "rtl";
 }) {
   const { photos, videos, direction } = props;

@@ -40,6 +40,7 @@ export class ApiPhoto {
   id: string;
   chatId: string;
   file: ApiFile;
+  url: string;
 }
 
 export class ApiVideo {
@@ -50,12 +51,20 @@ export class ApiVideo {
   duration: number;
   thumbnail: any;
   file: ApiFile;
+  url: string;
 }
 
 export class ApiDocument {
   id: string;
   chatId: string;
   file: ApiFile;
+  url: string;
+}
+
+export class ApiMessageForwardInfo {
+  fromChatId: string;
+  fromMessageId: string;
+  senderUserId: string;
 }
 
 export class ApiMessage {
@@ -65,18 +74,15 @@ export class ApiMessage {
   sentByMember: ApiChatMember;
   content: {
     text: string;
-    photoIds: string[];
-    videoIds: string[];
-    documentIds: string[];
+    hasMedia: boolean;
+    photos: ApiPhoto[];
+    videos: ApiVideo[];
+    documents: ApiDocument[];
   };
-  date: number;
-  editDate: number;
+  date: string;
+  editDate: string;
   replyToMessageId: string;
-  forwardInfo?: {
-    fromChatId: string;
-    fromMessageId: string;
-    senderUserId: string;
-  };
+  forwardInfo?: ApiMessageForwardInfo;
   seenByUserIds?: string[];
   views?: number;
   reactions?: any;
@@ -89,8 +95,8 @@ export class ApiChat {
   isGroupChat: boolean;
   isPrivateChat: boolean;
   isSelfChat: boolean;
-  isMyFave: boolean;
-  isArchived: boolean;
   lastMessage: ApiMessage;
   memberCount: number;
+  isFave?: boolean;
+  isArchived?: boolean;
 }

@@ -1,37 +1,32 @@
+import { createChatApi } from "@apis/chat/create-chat";
 import {
   Box,
   Button,
   HStack,
   IconButton,
   Input,
-  InputGroup,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tag,
   TagCloseButton,
   TagLabel,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { sassClasses } from "@utils";
-import { IoMdCreate } from "react-icons/io";
-import styles from "./LeftHeader.module.scss";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { Formik, FormikConfig } from "formik";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createChatApi } from "@apis/chat/create-chat";
-import { getUsersApi } from "@apis/chat/get-users";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { ApiChatUser } from "@apis/models/chat";
-import { useSearchUsersQuery } from "@hooks/api-v2/useSearchUsers.query";
 import { FormikCustomInput } from "@components/custom/FormikCustomInput";
+import { useSearchUsersQuery } from "@hooks/api-v2/useSearchUsersQuery";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { sassClasses } from "@utils";
+import { Formik, FormikConfig } from "formik";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { IoMdCreate } from "react-icons/io";
 import { ChatUser } from "src/models";
+import styles from "./LeftHeader.module.scss";
 
 interface CreateChatForm {
   title: string;
@@ -76,7 +71,8 @@ export const CreateChatModal = React.memo(function _CreateChatModal(props: {
         description,
         memberUserIds: usersSelected.map((user) => user.id),
       });
-      // console.log(values);
+
+      onClose();
     },
   };
 

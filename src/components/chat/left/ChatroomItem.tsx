@@ -1,5 +1,5 @@
 import { Avatar } from "@chakra-ui/react";
-import { useLastMessage } from "@hooks/data/use-last-message";
+import { useLastMessage } from "@hooks/data-x/useLastMessage";
 import { useCurrentChatId } from "@hooks/router/useCurrentChatId";
 import { sassClasses } from "@utils";
 import { format } from "date-fns";
@@ -21,8 +21,6 @@ export const ChatroomItem: React.FC<ChatroomItemProps> = ({ data }) => {
   const currentChatId = useCurrentChatId();
   const isCurrent = currentChatId == data?.id;
 
-  const { message: lastMessage } = useLastMessage(data?.id);
-
   const handleClick = (e: MouseEvent) => {
     router.push(
       { pathname: router.pathname, query: { id: data.id } },
@@ -36,11 +34,10 @@ export const ChatroomItem: React.FC<ChatroomItemProps> = ({ data }) => {
   const formatMessageDate = (date: Date | number | string) => {
     if (!date) return null;
 
-    return format(new Date(date), "kk:mm");
+    return format(new Date(date), "HH:mm");
   };
 
-  const { title } = data || {};
-  const { content, date } = lastMessage || {};
+  const lastMessage = useLastMessage(data?.id) || data?.lastMessage;
 
   return (
     <div
@@ -52,12 +49,14 @@ export const ChatroomItem: React.FC<ChatroomItemProps> = ({ data }) => {
       </div>
       <div className={cl("info")}>
         <div className={cl("info_left")}>
-          <span className={cl("name")}>{title}</span>
-          <span className={cl("last_message")}>{content?.text}</span>
+          <span className={cl("name")}>{data?.title}</span>
+          <span className={cl("last_message")}>
+            {lastMessage?.content?.text}
+          </span>
         </div>
         <div className={cl("info_right")}>
           <span className={cl("time")}>
-            {date ? formatMessageDate(date) : null}
+            {lastMessage?.date ? formatMessageDate(lastMessage.date) : null}
           </span>
           <span className={cl("seen")}>{/* <RiCheckDoubleLine /> */}</span>
         </div>
