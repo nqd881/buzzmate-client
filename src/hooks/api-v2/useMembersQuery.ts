@@ -1,10 +1,13 @@
 import { getMembersApi } from "@apis/chat/get-members";
 import { useQuery } from "@tanstack/react-query";
-import { KEY_LIST_MEMBERS_OF_CHAT } from "./keys";
+import { remoteKey } from "./keys";
+
+export const REMOTE_MEMBERS = (chatId: string) =>
+  remoteKey((chatId) => [chatId, "members"], chatId);
 
 export const useMembersQuery = (chatId: string) => {
   return useQuery({
-    queryKey: KEY_LIST_MEMBERS_OF_CHAT(chatId),
+    queryKey: REMOTE_MEMBERS(chatId),
     queryFn: () => getMembersApi(chatId),
   });
 };

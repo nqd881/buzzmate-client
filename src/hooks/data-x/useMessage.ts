@@ -1,9 +1,11 @@
 import { useMessages } from "./useMessages";
 
 export const useMessage = (chatId: string, messageId: string) => {
-  const { messages, findMessage, findMessageIndex } = useMessages(chatId);
+  const { findMessage, getLastMessage } = useMessages(chatId);
 
-  const isLastMessage = findMessageIndex(messageId) === messages.length - 1;
+  const message = findMessage(messageId);
 
-  return { message: findMessage(messageId), isLastMessage };
+  const isLastMessage = message === getLastMessage();
+
+  return { message, isLastMessage };
 };

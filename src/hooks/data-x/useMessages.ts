@@ -1,70 +1,73 @@
 import { ApiMessage } from "@apis/models/chat";
-import { KEY_LIST_MESSAGES_OF_CHAT } from "@hooks/api-v2/keys";
+import { localKey } from "@hooks/api-v2/keys";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { compareAsc } from "date-fns";
+import { produce } from "immer";
 import _ from "lodash";
 
-export type UpdateMessageFn = (oldMessage: ApiMessage) => ApiMessage;
+export type MessageUpdater = (message: ApiMessage) => ApiMessage;
+
+export const LOCAL_MESSAGES = (chatId: string) =>
+  localKey((chatId) => [chatId, "messages"], chatId);
 
 export const buildMessagesHandlers = (
   queryClient: QueryClient,
   chatId: string
 ) => {
-  const queryKey = KEY_LIST_MESSAGES_OF_CHAT(chatId);
+  const queryKey = LOCAL_MESSAGES(chatId);
 
-  const _compareMessageById = (value: ApiMessage, other: ApiMessage) =>
+  const _compareMessagesById = (value: ApiMessage, other: ApiMessage) =>
     value.id === other.id;
 
-  const _matchChatId = (message: Partial<ApiMessage>) =>
-    message?.chatId === chatId;
+  const _buildCompareMessageId = (messageId: string) => (message: ApiMessage) =>
+    message.id === messageId;
 
-  const _getUniqueMessages = (messages: ApiMessage[]) => {
-    return _.uniqWith(messages, _compareMessageById);
+  const _buildCompareChatId = (chatId: string) => (message: ApiMessage) =>
+    message.chatId === chatId;
+
+  const _uniqueMessages = (messages: ApiMessage[]) => {
+    return _.uniqWith(messages, _compareMessagesById);
   };
 
-  const _getMatchChatId = (messages: ApiMessage[]) => {
-    return messages.filter(_matchChatId);
+  const _matchChatId = (messages: ApiMessage[]) => {
+    return messages.filter(_buildCompareChatId(chatId));
   };
 
-  const getMessages = () =>
-    _getUniqueMessages(
-      queryClient.getQueryData<ApiMessage[]>(queryKey) || []
-    )?.sort((a, b) => {
+  const _sortMessagesAsc = (messages: ApiMessage[]) => {
+    return [...messages].sort((a, b) => {
       const compareDateResult = compareAsc(new Date(a.date), new Date(b.date));
 
       if (compareDateResult === 0) return a.id <= b.id ? -1 : 1;
 
       return compareDateResult;
     });
+  };
+
+  const getMessages = () =>
+    queryClient.getQueryData<ApiMessage[]>(queryKey) || [];
 
   const setMessages = (
     messagesUpdater: ApiMessage[] | ((messages: ApiMessage[]) => ApiMessage[])
   ) => {
-    const handleMessagesBeforeSet = (messages: ApiMessage[]) =>
-      _getUniqueMessages(_getMatchChatId(messages));
+    const _handle = (messages: ApiMessage[]) =>
+      _sortMessagesAsc(_uniqueMessages(_matchChatId(messages)));
 
     queryClient.setQueryData<ApiMessage[]>(
       queryKey,
       (oldMessages: ApiMessage[]) => {
         if (typeof messagesUpdater === "function") {
-          return handleMessagesBeforeSet(messagesUpdater(oldMessages));
+          return _handle(messagesUpdater(oldMessages));
         }
 
-        return handleMessagesBeforeSet(messagesUpdater);
+        return _handle(messagesUpdater);
       }
     );
-  };
-
-  const findMessageIndex = (messageId: string) => {
-    const messages = getMessages();
-
-    return messages.findIndex((message) => message.id === messageId);
   };
 
   const findMessage = (messageId: string) => {
     const messages = getMessages();
 
-    return messages.find((message) => message.id === messageId);
+    return messages.find(_buildCompareMessageId(messageId));
   };
 
   const getLastMessage = (): ApiMessage => {
@@ -74,34 +77,29 @@ export const buildMessagesHandlers = (
   };
 
   const addMessages = (...newMessages: ApiMessage[]) => {
-    const handleMessageBeforeAdd = (messages: ApiMessage[]) =>
-      _getUniqueMessages(_getMatchChatId(messages));
-
-    setMessages((messages) => [
-      ...messages,
-      ...handleMessageBeforeAdd(
-        _.differenceWith(newMessages, messages, _compareMessageById)
-      ),
-    ]);
+    setMessages(
+      produce((messages) => {
+        for (let newMessage of newMessages) {
+          messages.push(newMessage);
+        }
+      })
+    );
   };
 
   const updateMessage = (
     updateMessageId: string,
-    messageUpdater: Partial<ApiMessage> | UpdateMessageFn
+    messageUpdater: Partial<ApiMessage> | MessageUpdater
   ) => {
+    const compareMessageId = _buildCompareMessageId(updateMessageId);
+
     setMessages((messages) =>
       messages.map((message) => {
-        if (message.id === updateMessageId) {
+        if (compareMessageId(message)) {
           if (typeof messageUpdater === "function") {
-            const _message = messageUpdater(message);
-
-            if (_matchChatId(_message)) return _message;
-
-            return message;
+            return messageUpdater(message);
           }
 
-          if (_matchChatId(messageUpdater))
-            return _.merge(message, messageUpdater);
+          return _.merge(message, messageUpdater);
         }
 
         return message;
@@ -113,8 +111,6 @@ export const buildMessagesHandlers = (
     replaceMessageId: string,
     messageReplaced: ApiMessage
   ) => {
-    if (!_matchChatId(messageReplaced)) return;
-
     setMessages((messages) =>
       messages.map((message) => {
         if (message.id === replaceMessageId) return messageReplaced;
@@ -134,7 +130,6 @@ export const buildMessagesHandlers = (
     getMessages,
     setMessages,
     findMessage,
-    findMessageIndex,
     getLastMessage,
     addMessages,
     updateMessage,
@@ -144,7 +139,7 @@ export const buildMessagesHandlers = (
 };
 
 export const useMessages = (chatId: string) => {
-  const queryKey = KEY_LIST_MESSAGES_OF_CHAT(chatId);
+  const queryKey = LOCAL_MESSAGES(chatId);
 
   const queryClient = useQueryClient();
 

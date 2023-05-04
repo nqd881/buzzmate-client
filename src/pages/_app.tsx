@@ -8,6 +8,7 @@ import {
 import { AppPropsWithLayout } from "@type";
 import ms from "ms";
 import { useState } from "react";
+import { RecoilRoot } from "recoil";
 import theme from "src/styles/theme";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -25,13 +26,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <ChakraProvider resetCSS={true} theme={theme}>
-          {getLayout(<Component {...pageProps} />)}
-        </ChakraProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ChakraProvider resetCSS={true} theme={theme}>
+            {getLayout(<Component {...pageProps} />)}
+          </ChakraProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 

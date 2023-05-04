@@ -1,5 +1,5 @@
 import { ApiClient } from "@apis/base";
-import { ApiChatMember } from "@apis/models/chat";
+import { ApiMember } from "@apis/models/chat";
 
 export type GetMembersOptions = {
   ids?: string[];
@@ -17,7 +17,7 @@ export const getMembersApi = (chatId: string, options?: GetMembersOptions) => {
 
   if (options?.limit) queries.append("limit", options?.limit.toString());
 
-  return ApiClient.get<ApiChatMember[], ApiChatMember[]>(
+  return ApiClient.get<ApiMember[], ApiMember[]>(
     `/api/chat-svc/chats/${chatId}/members?${queries}`
   );
 };

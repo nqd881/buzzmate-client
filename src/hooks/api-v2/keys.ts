@@ -1,21 +1,31 @@
-export const KEY_LIST_CHATS = ["chats"];
+export type Key = string[];
 
-export const KEY_LIST_USERS_SEARCH = ["search", "users"];
+export type KeyBuilder<Options = any> = (options?: Options) => Key;
 
-export const KEY_LIST_MESSAGES_OF_CHAT = (chatId: string) => [
-  "chats",
-  chatId,
-  "messages",
-];
+export enum KeyTypes {
+  Local = "local",
+  Remote = "remote",
+}
 
-export const KEY_LIST_DRAFT_MESSAGES_OF_CHAT = (chatId: string) => [
-  "chats",
-  chatId,
-  "draft_messages",
-];
+export const fullKey = (type: KeyTypes, key: Key) => [type, ...key];
 
-export const KEY_LIST_MEMBERS_OF_CHAT = (chatId: string) => [
-  "chats",
-  chatId,
-  "members",
-];
+export const buildKey = <Options>(
+  type: KeyTypes,
+  keyOrBuilder: Key | KeyBuilder<Options>,
+  options?: Options
+) => {
+  return fullKey(
+    type,
+    typeof keyOrBuilder === "function" ? keyOrBuilder(options) : keyOrBuilder
+  );
+};
+
+export const localKey = <Options>(
+  keyOrBuilder: Key | KeyBuilder<Options>,
+  options?: Options
+) => buildKey(KeyTypes.Local, keyOrBuilder, options);
+
+export const remoteKey = <Options>(
+  keyOrBuilder: Key | KeyBuilder<Options>,
+  options?: Options
+) => buildKey(KeyTypes.Remote, keyOrBuilder, options);

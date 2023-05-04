@@ -1,4 +1,4 @@
-import { KEY_LIST_CHATS } from "@hooks/api-v2/keys";
+import { REMOTE_CHATS } from "@hooks/api-v2/useChatsQuery";
 import { buildMessagesHandlers } from "@hooks/data-x/useMessages";
 import { useSocket } from "@hooks/useSocket";
 import { useQueryClient } from "@tanstack/react-query";
@@ -47,17 +47,11 @@ export const ChatSocketProvider: React.FC<PropsWithChildren> = (props) => {
       addMessages(message);
     });
 
-    // socket.on("signal_chat_created", () => {
-    //   console.log("Received a signal: Chat Created");
-
-    //   queryClient.refetchQueries({ queryKey: KEY_LIST_CHATS, exact: true });
-    // });
-
     socket.on("join_new_chat", (chatId: string) => {
       console.log("Join new chat: ", chatId);
 
       queryClient.refetchQueries({
-        queryKey: KEY_LIST_CHATS,
+        queryKey: REMOTE_CHATS,
         exact: true,
         type: "all",
       });

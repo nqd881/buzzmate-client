@@ -34,8 +34,6 @@ export const MessagesView: React.FC<MessageViewProps> = () => {
 
   const { messages, addMessages } = useMessages(currentChatId);
 
-  console.log(currentChatId, messages);
-
   const [fetchingPrevious, setFetchingPrevious] = useState(false);
 
   const calCurrentScrollBottom = useCallback(() => {
@@ -143,8 +141,6 @@ export const MessagesView: React.FC<MessageViewProps> = () => {
     };
 
     const handleScroll = () => {
-      console.log("Scrolling");
-
       updateCurrentScrollBottom();
 
       const scrollTop = elem.scrollTop;

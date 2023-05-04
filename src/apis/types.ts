@@ -81,7 +81,7 @@ export class Message {
   date: Date;
 }
 
-export class ChatMember {
+export class Member {
   member_id: string;
   user_id: string;
   photo: string;
@@ -98,6 +98,6 @@ export class Chat {
   creator_id: string;
   chat_photo: string;
   state: ChatState;
-  members: ChatMember[];
+  members: Member[];
   last_message: Message;
 }

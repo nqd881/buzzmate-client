@@ -6,7 +6,7 @@ export class ApiChatUser {
   type: string;
 }
 
-export class ApiChatMember {
+export class ApiMember {
   id: string;
   chatId: string;
   userId: string;
@@ -71,7 +71,7 @@ export class ApiMessage {
   id: string;
   chatId: string;
   senderUserId: string;
-  sentByMember: ApiChatMember;
+  sentByMember: ApiMember;
   content: {
     text: string;
     hasMedia: boolean;
