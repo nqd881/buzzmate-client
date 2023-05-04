@@ -3,14 +3,14 @@ import { ApiMessage } from "@apis/models/chat";
 import { useChatUserId } from "@hooks/useChatUserId";
 import { isPhotoFile, isVideoFile } from "@utils/file";
 import { v4 } from "uuid";
-import { UpdateMessageFn } from "./useMessages";
+import { MessageUpdater } from "./useMessages";
 
 export const useCreateMessage = (chatId: string) => {
   const chatUserId = useChatUserId();
 
   const createMessage = (
     payload: SendMessagePayload,
-    updateFn: (updater: UpdateMessageFn) => void
+    updateFn: (updater: MessageUpdater) => void
   ): ApiMessage => {
     const { prepareMessageId, message, replyToMessageId, files } = payload;
 
@@ -59,22 +59,6 @@ export const useCreateMessage = (chatId: string) => {
             }),
           },
         }));
-        // updateMessage(prepareMessageId, (message) => ({
-        //   ...message,
-        //   content: {
-        //     ...message.content,
-        //     photos: message.content.photos.map((photo) => {
-        //       if (photo.id === localId) {
-        //         return {
-        //           ...photo,
-        //           url: reader.result.toString(),
-        //         };
-        //       }
-
-        //       return photo;
-        //     }),
-        //   },
-        // }));
       };
     });
 
